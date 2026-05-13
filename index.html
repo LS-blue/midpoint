@@ -1,0 +1,2350 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>중간지점 — 우리 어디서 볼까?</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" as="style" crossorigin
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+<style>
+  :root {
+    --bg: #faf7f2;
+    --bg-elev: #ffffff;
+    --ink: #1a1a1a;
+    --ink-soft: #5a5a5a;
+    --ink-mute: #999;
+    --line: #ececec;
+    --line-strong: #1a1a1a;
+    --accent: #ff6b4a;
+    --accent-soft: #ffe9e2;
+    --warm: #f4ede1;
+    --cool: #e8f4f8;
+    --cool-ink: #2987a3;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.08);
+    --radius-sm: 10px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: 'ss01' on, 'ss02' on;
+  }
+
+  body { min-height: 100vh; overflow-x: hidden; }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(circle at 12% 18%, rgba(255, 107, 74, 0.08), transparent 40%),
+      radial-gradient(circle at 88% 12%, rgba(255, 200, 100, 0.10), transparent 38%),
+      radial-gradient(circle at 50% 90%, rgba(120, 180, 220, 0.06), transparent 45%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 48px 32px 96px;
+  }
+
+  /* Nav */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 64px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.02em;
+  }
+
+  .logo-mark {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--ink);
+    color: white;
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+
+  .nav-links a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--ink); }
+
+  .nav-restart {
+    padding: 8px 14px;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--ink-soft);
+    transition: all 0.2s;
+    display: none;
+  }
+
+  .nav-restart:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+
+  .nav-restart.show { display: block; }
+
+  /* Hero */
+  .hero {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 64px;
+    align-items: start;
+    margin-bottom: 80px;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 24px;
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.4); }
+  }
+
+  h1 {
+    font-size: clamp(36px, 5.4vw, 60px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.04;
+    margin-bottom: 24px;
+  }
+
+  h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--accent), #ffa55c);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .lede {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 460px;
+    margin-bottom: 32px;
+  }
+
+  .stats {
+    display: flex;
+    gap: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+
+  .stat-num {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--ink-mute);
+    margin-top: 4px;
+  }
+
+  /* Action card (shared shell) */
+  .card {
+    background: var(--bg-elev);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--line);
+    position: relative;
+  }
+
+  .card-corner {
+    position: absolute;
+    top: -14px;
+    right: 24px;
+    background: var(--ink);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  .card-corner.accent { background: var(--accent); }
+
+  .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink-mute);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .card-headline {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    margin-bottom: 24px;
+  }
+
+  /* View switching */
+  .view { display: none; }
+  .view.active { display: block; animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Number picker */
+  .num-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .num-btn {
+    padding: 16px 8px;
+    background: var(--bg);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .num-btn .num {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .num-btn .label {
+    font-size: 11px;
+    color: var(--ink-mute);
+    font-weight: 500;
+  }
+
+  .num-btn:hover {
+    border-color: var(--ink);
+  }
+
+  .num-btn.selected {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: white;
+  }
+
+  .num-btn.selected .label { color: rgba(255,255,255,0.65); }
+
+  .helper-text {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    margin-bottom: 20px;
+    padding: 14px 16px;
+    background: var(--warm);
+    border-radius: var(--radius-sm);
+  }
+
+  /* Inputs */
+  .input-group {
+    position: relative;
+    margin-bottom: 12px;
+  }
+
+  .input-group label {
+    position: absolute;
+    top: 14px;
+    left: 56px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    pointer-events: none;
+  }
+
+  .input-group input {
+    width: 100%;
+    padding: 32px 20px 16px 56px;
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    font-weight: 600;
+    font-family: inherit;
+    background: var(--bg);
+    transition: border-color 0.2s, background 0.2s;
+    outline: none;
+    color: var(--ink);
+  }
+
+  .input-group input:focus {
+    border-color: var(--ink);
+    background: white;
+  }
+
+  .input-group .input-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .input-group.home .input-icon { background: var(--cool); color: var(--cool-ink); }
+  .input-group.work .input-icon { background: var(--accent-soft); color: var(--accent); }
+  .input-group.name .input-icon { background: #ecedf2; color: #555; }
+
+  .input-group.compact input {
+    padding: 14px 18px 14px 50px;
+    font-size: 15px;
+  }
+
+  .input-group.compact label { display: none; }
+
+  .input-group.compact .input-icon {
+    width: 24px;
+    height: 24px;
+    left: 16px;
+    font-size: 12px;
+  }
+
+  /* Buttons */
+  .primary-btn {
+    width: 100%;
+    padding: 18px;
+    background: var(--ink);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: transform 0.15s, background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .primary-btn:hover {
+    background: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  .primary-btn:active { transform: translateY(0); }
+
+  .primary-btn:disabled {
+    background: var(--line);
+    color: var(--ink-mute);
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .primary-btn .arrow { transition: transform 0.2s; }
+  .primary-btn:hover:not(:disabled) .arrow { transform: translateX(4px); }
+
+  .secondary-btn {
+    padding: 12px 16px;
+    background: var(--bg);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--ink-soft);
+  }
+
+  .secondary-btn:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+
+  .swap-btn {
+    width: 100%;
+    margin: 4px 0;
+    padding: 8px;
+    background: none;
+    border: none;
+    color: var(--ink-mute);
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-family: inherit;
+    transition: color 0.2s;
+  }
+
+  .swap-btn:hover { color: var(--ink); }
+
+  /* Suggestions */
+  .suggestions {
+    margin-top: 12px;
+    margin-bottom: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .suggestion-chip {
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--warm);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+    font-family: inherit;
+    color: var(--ink-soft);
+  }
+
+  .suggestion-chip:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+
+  /* Autocomplete */
+  .autocomplete {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% + 4px);
+    background: white;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-md);
+    z-index: 10;
+    max-height: 240px;
+    overflow-y: auto;
+    display: none;
+  }
+
+  .autocomplete.show { display: block; }
+
+  .ac-item {
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.15s;
+  }
+
+  .ac-item:hover, .ac-item.active { background: var(--bg); }
+
+  .ac-item strong { font-weight: 700; }
+  .ac-item span { color: var(--ink-mute); font-size: 12px; }
+
+  /* Room view: participants */
+  .room-status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px dashed var(--line);
+  }
+
+  .room-status-text {
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  .room-status-text strong {
+    color: var(--ink);
+    font-weight: 800;
+    font-size: 15px;
+  }
+
+  .progress-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .progress-pill::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .progress-pill.complete {
+    background: #e8f7ed;
+    color: #1f8a3d;
+  }
+
+  .progress-pill.complete::before { background: #1f8a3d; }
+
+  .participants {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .participant {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: var(--bg);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-md);
+    transition: all 0.2s;
+  }
+
+  .participant.me {
+    background: linear-gradient(120deg, var(--accent-soft), var(--warm));
+    border-color: var(--accent);
+  }
+
+  .participant.pending {
+    background: transparent;
+    border-style: dashed;
+    color: var(--ink-mute);
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: white;
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .participant.pending .avatar {
+    background: var(--line);
+    color: var(--ink-mute);
+  }
+
+  .participant-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .participant-name {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+
+  .me-badge {
+    display: inline-block;
+    padding: 1px 6px;
+    background: var(--accent);
+    color: white;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    margin-left: 4px;
+    vertical-align: middle;
+    letter-spacing: 0.04em;
+  }
+
+  .participant-locs {
+    font-size: 13px;
+    color: var(--ink-soft);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .participant-locs .dot {
+    margin: 0 6px;
+    color: var(--ink-mute);
+  }
+
+  .participant-remove {
+    background: none;
+    border: none;
+    color: var(--ink-mute);
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px;
+    transition: color 0.2s;
+  }
+
+  .participant-remove:hover { color: var(--accent); }
+
+  /* Section divider */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 24px 0 16px;
+    color: var(--ink-mute);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  /* Share link */
+  .share-box {
+    padding: 16px;
+    background: var(--bg);
+    border-radius: var(--radius-md);
+    border: 1px dashed var(--line);
+    margin-bottom: 16px;
+  }
+
+  .share-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink-mute);
+    margin-bottom: 8px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .share-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .share-row input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 12px;
+    background: white;
+    color: var(--ink-soft);
+    outline: none;
+    min-width: 0;
+  }
+
+  .share-row input:focus { border-color: var(--ink); }
+
+  .copy-btn {
+    padding: 10px 16px;
+    background: var(--ink);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+
+  .copy-btn:hover { background: var(--accent); }
+  .copy-btn.copied { background: #1f8a3d; }
+
+  .share-hint {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--ink-mute);
+    line-height: 1.5;
+  }
+
+  /* Results */
+  .results {
+    margin-top: 80px;
+    display: none;
+    animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .results.show { display: block; }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .results-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .results-header h2 {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .results-header h2 .pin {
+    background: linear-gradient(120deg, transparent 60%, var(--accent-soft) 60%);
+    padding: 0 4px;
+  }
+
+  .results-meta {
+    color: var(--ink-soft);
+    font-size: 15px;
+  }
+
+  .results-meta strong { color: var(--ink); }
+
+  /* Participant chips in results */
+  .participants-summary {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+
+  .p-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px 4px 4px;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .p-chip .avatar {
+    width: 22px;
+    height: 22px;
+    font-size: 10px;
+  }
+
+  .spot-tabs {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+
+  .spot-tab {
+    padding: 12px 20px;
+    border-radius: 999px;
+    background: white;
+    border: 1.5px solid var(--line);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .spot-tab:hover { border-color: var(--ink); }
+
+  .spot-tab.active {
+    background: var(--ink);
+    color: white;
+    border-color: var(--ink);
+  }
+
+  .spot-tab .distance {
+    font-size: 11px;
+    color: var(--ink-mute);
+    font-weight: 500;
+  }
+
+  .spot-tab.active .distance { color: rgba(255, 255, 255, 0.7); }
+
+  .spot-content { display: none; }
+  .spot-content.active { display: block; animation: fadeIn 0.4s ease; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .spot-hero {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 24px;
+    margin-bottom: 48px;
+    background: white;
+    padding: 32px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line);
+  }
+
+  .spot-hero-left h3 {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+  }
+
+  .spot-hero-left p {
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .spot-vibes { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .vibe-tag {
+    padding: 4px 10px;
+    background: var(--warm);
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+
+  .spot-hero-right {
+    background: var(--warm);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mini-map {
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    position: relative;
+    background:
+      linear-gradient(135deg, #f4ede1 0%, #e8e1d3 100%);
+    border-radius: var(--radius-sm);
+  }
+
+  .map-dot {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    border: 2px solid white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+
+  .map-dot.person { background: var(--cool-ink); }
+  .map-dot.mid {
+    background: var(--accent);
+    width: 16px;
+    height: 16px;
+    box-shadow: 0 0 0 6px rgba(255, 107, 74, 0.15), 0 2px 6px rgba(0,0,0,0.2);
+    z-index: 4;
+  }
+
+  .map-dot.spot {
+    background: var(--ink);
+    width: 14px;
+    height: 14px;
+    z-index: 3;
+  }
+
+  .map-line {
+    position: absolute;
+    z-index: 1;
+    height: 1.5px;
+    background: repeating-linear-gradient(90deg, var(--ink) 0 3px, transparent 3px 7px);
+    opacity: 0.4;
+    transform-origin: 0 50%;
+  }
+
+  .map-legend {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(8px);
+    padding: 8px 10px;
+    border-radius: 8px;
+    display: flex;
+    gap: 12px;
+    font-size: 11px;
+    color: var(--ink-soft);
+    z-index: 5;
+  }
+
+  .map-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  /* Listings */
+  .category { margin-bottom: 56px; }
+
+  .category-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .category-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .category-title h4 {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .category-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    font-size: 16px;
+  }
+
+  .category-icon.food { background: var(--accent-soft); }
+  .category-icon.cafe { background: var(--cool); }
+
+  .category-count {
+    font-size: 13px;
+    color: var(--ink-mute);
+    font-weight: 500;
+  }
+
+  .place-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  .place-card {
+    background: white;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .place-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .place-rank {
+    padding: 12px 16px 0;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--ink-mute);
+    letter-spacing: 0.1em;
+  }
+
+  .place-body {
+    padding: 8px 16px 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .place-name {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+
+  .place-genre {
+    font-size: 12px;
+    color: var(--ink-mute);
+    margin-bottom: 10px;
+  }
+
+  .place-desc {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin-bottom: 12px;
+    flex: 1;
+  }
+
+  .place-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+  }
+
+  .place-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 700;
+  }
+
+  .place-rating .star { color: #f5b400; }
+  .place-price { color: var(--ink-mute); font-weight: 500; }
+
+  .place-tags {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  .place-tag {
+    padding: 2px 8px;
+    background: var(--bg);
+    border-radius: 4px;
+    font-size: 11px;
+    color: var(--ink-soft);
+  }
+
+  /* Footer */
+  footer {
+    margin-top: 96px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--ink-mute);
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--ink);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0;
+    transition: all 0.3s;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* Mobile */
+  @media (max-width: 860px) {
+    .page { padding: 24px 20px 64px; }
+    nav { margin-bottom: 32px; }
+    .nav-links { display: none; }
+    .hero {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      margin-bottom: 48px;
+    }
+    .card { padding: 24px; }
+    .spot-hero { grid-template-columns: 1fr; padding: 24px; }
+    .spot-hero-right { min-height: 220px; }
+    .stats { gap: 24px; }
+    .stat-num { font-size: 22px; }
+    .num-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <nav>
+    <div class="logo">
+      <div class="logo-mark">M</div>
+      <span>MidPoint</span>
+    </div>
+    <div class="nav-links">
+      <a href="#">소개</a>
+      <a href="#">동네 둘러보기</a>
+      <a href="#">팀</a>
+    </div>
+    <button class="nav-restart" id="restartBtn">새로 시작</button>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-left">
+      <div class="eyebrow">중간지점 약속 잡기</div>
+      <h1>모두에게<br/>공평한 <em>중간</em>,<br/>한 번에 정해요.</h1>
+      <p class="lede">
+        혼자서도, 친구 여러 명과도. 각자의 집과 회사를 입력하면
+        모두에게 가까운 핫플레이스의 맛집·카페까지 한 번에 추천해요.
+      </p>
+      <div class="stats">
+        <div>
+          <div class="stat-num">2~6명</div>
+          <div class="stat-label">함께 약속 가능</div>
+        </div>
+        <div>
+          <div class="stat-num">15+</div>
+          <div class="stat-label">서울 인기 동네</div>
+        </div>
+        <div>
+          <div class="stat-num">150+</div>
+          <div class="stat-label">큐레이션 맛집·카페</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="actionCard">
+      <div class="card-corner" id="cardCorner">START</div>
+
+      <!-- VIEW 1: SETUP -->
+      <div class="view active" id="view-setup">
+        <div class="card-title">STEP 1 · 인원 선택</div>
+        <div class="card-headline">몇 명이서 만나시나요?</div>
+
+        <div class="num-grid">
+          <button class="num-btn" data-n="1"><span class="num">1</span><span class="label">혼자</span></button>
+          <button class="num-btn selected" data-n="2"><span class="num">2</span><span class="label">둘이서</span></button>
+          <button class="num-btn" data-n="3"><span class="num">3</span><span class="label">셋이서</span></button>
+          <button class="num-btn" data-n="4"><span class="num">4</span><span class="label">넷이서</span></button>
+          <button class="num-btn" data-n="5"><span class="num">5</span><span class="label">다섯</span></button>
+          <button class="num-btn" data-n="6"><span class="num">6</span><span class="label">여섯</span></button>
+        </div>
+
+        <div class="helper-text" id="setupHelper">
+          2명 이상이면 방을 만들어 친구에게 링크를 보낼 수 있어요. 각자 본인 위치를 입력하면 모두의 중간지점을 찾아드려요.
+        </div>
+
+        <button class="primary-btn" id="createBtn">
+          방 만들기
+          <span class="arrow">→</span>
+        </button>
+      </div>
+
+      <!-- VIEW 2: SOLO (N=1) -->
+      <div class="view" id="view-solo">
+        <div class="card-title">내 위치 입력</div>
+        <div class="card-headline">집과 회사를 알려주세요.</div>
+
+        <div class="input-group home">
+          <div class="input-icon">집</div>
+          <label>HOME</label>
+          <input type="text" id="soloHome" placeholder="예) 마포구 합정동" autocomplete="off" />
+          <div class="autocomplete"></div>
+        </div>
+
+        <button class="swap-btn" id="soloSwap" type="button">↕ 바꾸기</button>
+
+        <div class="input-group work">
+          <div class="input-icon">회</div>
+          <label>OFFICE</label>
+          <input type="text" id="soloWork" placeholder="예) 강남구 역삼동" autocomplete="off" />
+          <div class="autocomplete"></div>
+        </div>
+
+        <div class="suggestions">
+          <span style="font-size:12px;color:var(--ink-mute);margin-right:4px;align-self:center;">자주 찾는 곳:</span>
+          <button class="suggestion-chip" data-loc="홍대">홍대</button>
+          <button class="suggestion-chip" data-loc="강남">강남</button>
+          <button class="suggestion-chip" data-loc="성수">성수</button>
+          <button class="suggestion-chip" data-loc="여의도">여의도</button>
+          <button class="suggestion-chip" data-loc="잠실">잠실</button>
+        </div>
+
+        <button class="primary-btn" id="soloFind">
+          중간지점 찾기
+          <span class="arrow">→</span>
+        </button>
+      </div>
+
+      <!-- VIEW 3: ROOM -->
+      <div class="view" id="view-room">
+        <div class="room-status">
+          <div class="room-status-text">
+            <strong id="roomProgress">0 / 0</strong>명이 입력했어요
+          </div>
+          <div class="progress-pill" id="roomPill">진행 중</div>
+        </div>
+
+        <div class="participants" id="participantsList"></div>
+
+        <div id="addSelfSection">
+          <div class="divider">내 위치 입력하기</div>
+
+          <div class="input-group name compact">
+            <div class="input-icon">이</div>
+            <input type="text" id="myName" placeholder="이름 (예: 지수)" autocomplete="off" maxlength="10" />
+          </div>
+
+          <div class="input-group home compact">
+            <div class="input-icon">집</div>
+            <input type="text" id="myHome" placeholder="집 위치 (예: 마포구 합정동)" autocomplete="off" />
+            <div class="autocomplete"></div>
+          </div>
+
+          <div class="input-group work compact">
+            <div class="input-icon">회</div>
+            <input type="text" id="myWork" placeholder="회사 위치 (예: 강남구 역삼동)" autocomplete="off" />
+            <div class="autocomplete"></div>
+          </div>
+
+          <button class="primary-btn" id="addMeBtn" style="margin-top: 12px;">
+            나 추가하기
+            <span class="arrow">→</span>
+          </button>
+        </div>
+
+        <div id="shareSection" style="display:none;">
+          <div class="divider">공유 링크</div>
+          <div class="share-box">
+            <div class="share-label">📨 친구들에게 이 링크를 보내주세요</div>
+            <div class="share-row">
+              <input type="text" id="shareLink" readonly />
+              <button class="copy-btn" id="copyBtn">복사</button>
+            </div>
+            <div class="share-hint">
+              친구가 링크를 열어 본인 위치를 추가하면 새 링크가 생겨요. 그 링크를 다음 사람에게 전달해주세요.
+            </div>
+          </div>
+
+          <button class="primary-btn" id="findGroupBtn">
+            <span id="findBtnLabel">지금까지 입력된 곳으로 중간지점 찾기</span>
+            <span class="arrow">→</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="results" id="results">
+    <div class="results-header">
+      <h2>모두의 중간은 <span class="pin" id="midName">—</span> 근처예요</h2>
+      <div class="results-meta">
+        <strong id="participantCount">—</strong>명의 위치를 종합 · 가까운 핫플 <strong id="spotCount">—</strong>곳을 추렸어요
+      </div>
+      <div class="participants-summary" id="participantsSummary"></div>
+    </div>
+
+    <div class="spot-tabs" id="spotTabs"></div>
+    <div id="spotContents"></div>
+  </section>
+
+  <footer>
+    <div>© 2026 MidPoint — 만남이 더 가까워지는 곳</div>
+    <div>Made for friends</div>
+  </footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ 데이터 ============ */
+const SPOTS = [
+  {
+    name: '강남역', lat: 37.4979, lng: 127.0276,
+    desc: '약속의 디폴트. 어디서든 접근성 좋고, 늦게까지 열려있는 곳이 많아요.',
+    vibes: ['지하철 환승 편리', '회식·정장 OK', '늦은 시간'],
+    food: [
+      { name: '미트큐브', genre: '스테이크 · 양식', desc: '두툼한 큐브 스테이크가 시그니처. 회식 1차로 무난해요.', rating: 4.6, price: '₩₩₩', tags: ['스테이크','회식'] },
+      { name: '하야시라이스 본점', genre: '경양식', desc: '직장인 점심 줄 서는 곳. 진한 하야시 소스가 매력.', rating: 4.5, price: '₩', tags: ['혼밥','점심'] },
+      { name: '봉피양 강남', genre: '평양냉면', desc: '슴슴한 육수의 정석. 더운 날 만남에 추천.', rating: 4.4, price: '₩₩', tags: ['냉면','어른픽'] },
+      { name: '몽탄 강남', genre: '우대갈비', desc: '짚불 우대갈비의 본점. 예약 필수.', rating: 4.7, price: '₩₩₩', tags: ['고기','예약'] },
+      { name: '딘타이펑 강남', genre: '딤섬 · 중식', desc: '샤오롱바오 무난한 픽. 회전 빠른 편이라 부담 없어요.', rating: 4.3, price: '₩₩', tags: ['딤섬','데이트'] },
+    ],
+    cafe: [
+      { name: '커피리브레 강남', genre: '스페셜티 커피', desc: '에스프레소 한 잔으로 깔끔하게. 작업하기 좋은 자리.', rating: 4.5, price: '₩₩', tags: ['작업','드립'] },
+      { name: '블루보틀 신논현', genre: '커피', desc: '한 잔 천천히. 모임보다는 잠깐 쉬어가기 좋아요.', rating: 4.4, price: '₩₩', tags: ['감성','잠깐'] },
+      { name: '폴바셋 강남파이낸스', genre: '카페', desc: '회의용 좌석 넉넉. 회사 사람과 만나기 적당해요.', rating: 4.2, price: '₩₩', tags: ['미팅','넓음'] },
+      { name: '카페 마마스 강남', genre: '브런치 카페', desc: '리코타 샐러드와 파니니. 점심 후 디저트 코스로 좋음.', rating: 4.3, price: '₩₩', tags: ['브런치','샐러드'] },
+      { name: '나무사이로 강남', genre: '로스터리', desc: '한적한 골목 안 로스터리. 1on1 대화에 적합.', rating: 4.6, price: '₩₩', tags: ['조용함','로스터리'] },
+    ]
+  },
+  {
+    name: '홍대 · 연남동', lat: 37.5563, lng: 126.9220,
+    desc: '연남동 골목의 작은 가게들과 홍대의 활기, 둘 다 누릴 수 있는 동네.',
+    vibes: ['젊은 분위기', '주차는 어려움', '연트럴파크'],
+    food: [
+      { name: '연남토마', genre: '이자카야', desc: '늦게까지 열어요. 사케 한 잔과 안주.', rating: 4.5, price: '₩₩', tags: ['이자카야','술'] },
+      { name: '교토미식 연남', genre: '일식', desc: '오므라이스와 가츠동의 정석. 가성비 좋음.', rating: 4.4, price: '₩₩', tags: ['일식','점심'] },
+      { name: '연남방앗간', genre: '한식 브런치', desc: '들기름 막국수가 시그니처. 줄 길어요.', rating: 4.6, price: '₩₩', tags: ['한식','감성'] },
+      { name: '와카메소바 연남', genre: '소바', desc: '쯔케멘식 미역 소바. 더운 날 가볍게.', rating: 4.3, price: '₩', tags: ['소바','혼밥'] },
+      { name: '오방떡 소녀 본점', genre: '디저트 · 분식', desc: '갓 구운 오방떡과 떡볶이. 산책 중 출출할 때.', rating: 4.2, price: '₩', tags: ['디저트','산책'] },
+    ],
+    cafe: [
+      { name: '프릳츠 도화', genre: '베이커리 카페', desc: '바삭한 페이스트리와 콜드브루. 홍대 산책 코스.', rating: 4.6, price: '₩₩', tags: ['베이커리','베스트'] },
+      { name: '커피리브레 연남', genre: '스페셜티 커피', desc: '커피만 보고 가도 후회 없음. 좌석은 적음.', rating: 4.7, price: '₩₩', tags: ['드립','로스터리'] },
+      { name: '안녕커피 본점', genre: '카페', desc: '연트럴파크 옆. 햇살 좋은 날 야외석 추천.', rating: 4.3, price: '₩', tags: ['야외','뷰'] },
+      { name: '머케널리 연남', genre: '브런치 카페', desc: '아몬드 크루아상이 명물. 오후 늦으면 솔드.', rating: 4.4, price: '₩₩', tags: ['브런치','크루아상'] },
+      { name: '미뉴트빠삐용', genre: '디저트 카페', desc: '몽블랑이 시그니처. 가벼운 디저트 미팅.', rating: 4.5, price: '₩₩', tags: ['디저트','달콤'] },
+    ]
+  },
+  {
+    name: '성수동', lat: 37.5446, lng: 127.0560,
+    desc: '공장지대가 카페·편집숍으로. 요즘 가장 뜨거운 동네 중 하나.',
+    vibes: ['요즘 핫플', '편집숍·팝업', '걷기 좋음'],
+    food: [
+      { name: '소문난성수감자탕', genre: '한식', desc: '뼈해장국으로 든든하게. 점심·해장 모두.', rating: 4.4, price: '₩₩', tags: ['한식','해장'] },
+      { name: '성수족발', genre: '족발', desc: '쫀득한 족발 한 접시. 2차에 좋아요.', rating: 4.3, price: '₩₩', tags: ['족발','술'] },
+      { name: '미미면가 성수', genre: '쌀국수', desc: '진한 양지 쌀국수. 깔끔한 한 끼.', rating: 4.5, price: '₩', tags: ['쌀국수','혼밥'] },
+      { name: '오빠닭 성수', genre: '치킨 · 호프', desc: '바삭한 치킨에 생맥주. 캐주얼한 자리.', rating: 4.2, price: '₩₩', tags: ['치킨','맥주'] },
+      { name: '리치몬드제과 성수점', genre: '베이커리 · 식사', desc: '식사빵부터 디저트까지. 픽업해서 한강도 좋음.', rating: 4.4, price: '₩₩', tags: ['빵','픽업'] },
+    ],
+    cafe: [
+      { name: '센터커피 성수', genre: '스페셜티 커피', desc: '높은 천장과 단단한 에스프레소. 성수 입문 코스.', rating: 4.7, price: '₩₩', tags: ['핫플','넓음'] },
+      { name: '대림창고 갤러리 카페', genre: '갤러리 카페', desc: '창고를 개조한 거대한 공간. 사진 찍기 좋음.', rating: 4.3, price: '₩₩', tags: ['포토','감성'] },
+      { name: '어니언 성수', genre: '카페 · 베이커리', desc: '판도르가 명물. 줄 길어도 한 번은 가볼 만.', rating: 4.6, price: '₩₩', tags: ['빵','베스트'] },
+      { name: '메쉬커피', genre: '테이크아웃 카페', desc: '거리에서 한 잔. 산책하며 마시기 좋음.', rating: 4.5, price: '₩', tags: ['테이크아웃','커피'] },
+      { name: '레이어드 성수', genre: '디저트 카페', desc: '스콘과 클로티드 크림. 영국식 티타임.', rating: 4.4, price: '₩₩', tags: ['스콘','애프터눈'] },
+    ]
+  },
+  {
+    name: '이태원 · 한남', lat: 37.5347, lng: 126.9947,
+    desc: '글로벌한 식문화와 편집숍. 어른의 데이트, 미식 모임에 잘 어울려요.',
+    vibes: ['다양한 국가요리', '편집숍', '나이트라이프'],
+    food: [
+      { name: '바토스 이태원', genre: '멕시칸', desc: '타코와 마르가리타. 캐주얼한 분위기.', rating: 4.5, price: '₩₩', tags: ['타코','데이트'] },
+      { name: '발리인 서울', genre: '인도네시안', desc: '나시고렝과 사테. 매콤한 한 끼.', rating: 4.3, price: '₩₩', tags: ['이국','매콤'] },
+      { name: '리틀넥 한남', genre: '아메리칸 다이닝', desc: '버거와 굴, 와인까지. 분위기 깔끔.', rating: 4.4, price: '₩₩₩', tags: ['브런치','와인'] },
+      { name: '소이연남 한남', genre: '태국식', desc: '팟타이와 똠얌. 매콤 시원.', rating: 4.4, price: '₩₩', tags: ['태국','매콤'] },
+      { name: '맥심 베이커리 한남', genre: '베이커리 · 다이닝', desc: '브런치 평일에도 줄. 햇살 좋은 자리 추천.', rating: 4.5, price: '₩₩', tags: ['브런치','베이커리'] },
+    ],
+    cafe: [
+      { name: '오르에르 한남', genre: '카페 · 셀렉트숍', desc: '편집숍과 결합된 공간. 디자인 좋아하는 분과.', rating: 4.5, price: '₩₩', tags: ['편집숍','감성'] },
+      { name: '콤포타블 한남', genre: '카페', desc: '플랫화이트가 단단해요. 조용한 미팅.', rating: 4.6, price: '₩₩', tags: ['커피','조용함'] },
+      { name: '루이비통 메종 도산 — 카페', genre: '컨셉 카페', desc: '예약 필수. 특별한 날 픽.', rating: 4.4, price: '₩₩₩', tags: ['예약','특별'] },
+      { name: '카페 노티드 한남', genre: '디저트 카페', desc: '도넛과 우유. 캐주얼 데이트.', rating: 4.3, price: '₩₩', tags: ['도넛','달콤'] },
+      { name: '펠트커피 한남', genre: '스페셜티 커피', desc: '핸드드립 다양. 커피 진지하게 한 잔.', rating: 4.7, price: '₩₩', tags: ['드립','로스터리'] },
+    ]
+  },
+  {
+    name: '광화문 · 종로', lat: 37.5704, lng: 126.9826,
+    desc: '서울의 정중앙. 회식·가족모임·외부미팅 모두 무난한 베이스캠프.',
+    vibes: ['전통있는 노포', '직장인', '경복궁'],
+    food: [
+      { name: '교보문고 옆 진주집', genre: '콩국수', desc: '여름엔 콩국수. 어른들과의 한 끼.', rating: 4.5, price: '₩', tags: ['콩국수','노포'] },
+      { name: '광화문 미진', genre: '메밀국수', desc: '시원한 메밀과 만두. 30분 안에 끝나는 점심.', rating: 4.4, price: '₩', tags: ['메밀','점심'] },
+      { name: '북촌 손만두', genre: '만두', desc: '큼직한 손만두. 가볍게 한 끼.', rating: 4.3, price: '₩', tags: ['만두','산책'] },
+      { name: '청계천 옥미식당', genre: '한식 정식', desc: '한정식 코스 가성비. 손님 접대에 무난.', rating: 4.4, price: '₩₩', tags: ['한정식','접대'] },
+      { name: '광화문국밥', genre: '국밥', desc: '깔끔한 돼지국밥. 늦은 시간에도 따끈하게.', rating: 4.5, price: '₩', tags: ['국밥','해장'] },
+    ],
+    cafe: [
+      { name: 'D MUSEUM 카페', genre: '미술관 카페', desc: '전시 보고 나와서 한 잔. 차분한 톤.', rating: 4.3, price: '₩₩', tags: ['전시','조용함'] },
+      { name: '파스쿠찌 광화문점', genre: '카페', desc: '회의용 자리 넉넉. 외부 미팅에 무난.', rating: 4.1, price: '₩₩', tags: ['미팅','넓음'] },
+      { name: '커피한약방', genre: '한옥 카페', desc: '한옥의 정취. 산책 중 잠깐 들르기 좋음.', rating: 4.6, price: '₩₩', tags: ['한옥','감성'] },
+      { name: '레이어드 종로', genre: '베이커리 카페', desc: '스콘으로 유명. 약속 전 픽업도 좋음.', rating: 4.4, price: '₩₩', tags: ['스콘','브런치'] },
+      { name: '테라로사 광화문', genre: '스페셜티 커피', desc: '커피와 디저트가 단단함. 작업하기에도 좋음.', rating: 4.5, price: '₩₩', tags: ['작업','드립'] },
+    ]
+  },
+  {
+    name: '여의도', lat: 37.5219, lng: 126.9241,
+    desc: '한강뷰와 더현대. 직장인 약속과 산책 데이트 모두 좋아요.',
+    vibes: ['한강', '더현대 서울', '직장인'],
+    food: [
+      { name: '진주집 여의도', genre: '콩국수', desc: '여의도 노포. 점심엔 무조건 웨이팅.', rating: 4.5, price: '₩', tags: ['콩국수','노포'] },
+      { name: '여의도 정인면옥', genre: '평양냉면', desc: '담백한 한 그릇. 어른들과 무난.', rating: 4.3, price: '₩₩', tags: ['냉면','어른픽'] },
+      { name: '오레노라멘 더현대', genre: '일식 라멘', desc: '진한 돈코츠. 쇼핑 중 한 끼.', rating: 4.4, price: '₩₩', tags: ['라멘','쇼핑'] },
+      { name: '쿠킹스튜디오 여의도', genre: '양식', desc: '파스타와 와인. 분위기 깔끔.', rating: 4.3, price: '₩₩', tags: ['파스타','데이트'] },
+      { name: '백년옥 여의도', genre: '한정식', desc: '단정한 한식 코스. 부모님과도 좋음.', rating: 4.5, price: '₩₩₩', tags: ['한정식','접대'] },
+    ],
+    cafe: [
+      { name: '카멜커피 더현대', genre: '스페셜티 커피', desc: '쇼핑 중 휴식. 회전 빠르고 깔끔.', rating: 4.4, price: '₩₩', tags: ['쇼핑','휴식'] },
+      { name: '블루보틀 여의도', genre: '커피', desc: '잠깐 앉기 좋은 자리. 데이트 출발지.', rating: 4.3, price: '₩₩', tags: ['감성','잠깐'] },
+      { name: '한강뷰 카페 어니언 여의도', genre: '브런치 카페', desc: '큰 창과 한강. 사진 잘 나오는 곳.', rating: 4.5, price: '₩₩', tags: ['뷰','포토'] },
+      { name: '나만의커피 여의도', genre: '핸드드립 카페', desc: '조용히 한 잔. 1on1 대화 좋음.', rating: 4.4, price: '₩₩', tags: ['드립','조용함'] },
+      { name: '폴바셋 IFC', genre: '카페', desc: '미팅용 좌석 충분. 회사 사람과도 OK.', rating: 4.2, price: '₩₩', tags: ['미팅','넓음'] },
+    ]
+  },
+  {
+    name: '잠실 · 송리단길', lat: 37.5133, lng: 127.1000,
+    desc: '롯데월드와 한적한 송리단길. 데이트·가족모임 모두 OK.',
+    vibes: ['롯데월드', '한적함', '석촌호수'],
+    food: [
+      { name: '하루엔소쿠 잠실', genre: '일식 돈가스', desc: '두툼한 등심 돈가스. 가족 외식 단골.', rating: 4.5, price: '₩₩', tags: ['돈가스','가족'] },
+      { name: '진주냉면 잠실', genre: '냉면', desc: '깔끔한 육수. 더운 여름의 한 그릇.', rating: 4.3, price: '₩', tags: ['냉면','여름'] },
+      { name: '송리단 큐피드', genre: '브런치 다이닝', desc: '파스타와 와인. 송리단길 산책 후.', rating: 4.4, price: '₩₩', tags: ['브런치','데이트'] },
+      { name: '미진보 잠실', genre: '돼지고기', desc: '두툼한 삼겹살. 회식·모임용.', rating: 4.4, price: '₩₩', tags: ['고기','회식'] },
+      { name: '치즈공방 잠실', genre: '베이커리 카페 · 식사', desc: '치즈가 가득한 디저트. 가족과 디저트 타임.', rating: 4.3, price: '₩₩', tags: ['치즈','디저트'] },
+    ],
+    cafe: [
+      { name: '오라운지 송리단', genre: '브런치 카페', desc: '햇살 좋은 자리. 데이트 픽업.', rating: 4.5, price: '₩₩', tags: ['브런치','감성'] },
+      { name: '한가람 송리단', genre: '디저트 카페', desc: '딸기 크레페가 명물. 줄 길지만 가볼 만.', rating: 4.4, price: '₩₩', tags: ['디저트','달콤'] },
+      { name: '커피명가 잠실', genre: '카페', desc: '한산하고 차분. 진지한 대화에 좋음.', rating: 4.3, price: '₩₩', tags: ['조용함','대화'] },
+      { name: '석촌호수 옆 폴바셋', genre: '카페', desc: '호수뷰. 산책과 함께.', rating: 4.2, price: '₩₩', tags: ['뷰','산책'] },
+      { name: '카페 어반플랜트', genre: '식물 카페', desc: '플랜트 가득한 공간. 사진과 휴식 모두.', rating: 4.4, price: '₩₩', tags: ['식물','포토'] },
+    ]
+  },
+  {
+    name: '용산 · 신용산', lat: 37.5295, lng: 126.9648,
+    desc: '아모레퍼시픽·국립중앙박물관과 한강. 미식·문화 코스 둘 다 가능.',
+    vibes: ['전시·박물관', '깔끔한 다이닝', '한강뷰'],
+    food: [
+      { name: '몽탄', genre: '우대갈비', desc: '짚불향의 정석. 예약 필수.', rating: 4.8, price: '₩₩₩', tags: ['고기','예약'] },
+      { name: '금돼지식당', genre: '돼지고기', desc: '두툼한 삼겹살. 점심·저녁 모두.', rating: 4.6, price: '₩₩', tags: ['고기','웨이팅'] },
+      { name: '효뜨', genre: '베트남식 비스트로', desc: '쌀국수와 반미. 깔끔한 분위기.', rating: 4.5, price: '₩₩', tags: ['베트남','캐주얼'] },
+      { name: '오므리 신용산', genre: '일식 정식', desc: '단정한 일정식. 잔잔한 식사.', rating: 4.4, price: '₩₩', tags: ['일식','정식'] },
+      { name: '핏제리아오 용리단', genre: '나폴리 피자', desc: '얇은 도우의 정통 피자. 와인과 함께.', rating: 4.5, price: '₩₩', tags: ['피자','와인'] },
+    ],
+    cafe: [
+      { name: '아모레 성수 — 본관 카페', genre: '브랜드 카페', desc: '깔끔한 미니멀 공간. 잠깐 미팅.', rating: 4.4, price: '₩₩', tags: ['미니멀','미팅'] },
+      { name: '카페 진정성 용리단', genre: '밀크티 카페', desc: '밀크티의 정석. 진한 한 잔.', rating: 4.6, price: '₩₩', tags: ['밀크티','시그니처'] },
+      { name: '카페 어니언 용산', genre: '카페 · 베이커리', desc: '용산 분점. 빵 사가기에도 좋음.', rating: 4.5, price: '₩₩', tags: ['빵','테이크아웃'] },
+      { name: '용리단 모모스 카페', genre: '스페셜티 커피', desc: '드립 한 잔에 천천히. 작업도 가능.', rating: 4.6, price: '₩₩', tags: ['드립','작업'] },
+      { name: '국립중앙박물관 카페', genre: '뮤지엄 카페', desc: '전시 후 한 잔. 한적해서 좋음.', rating: 4.2, price: '₩', tags: ['전시','한적'] },
+    ]
+  },
+  {
+    name: '건대입구 · 성수동 사이', lat: 37.5402, lng: 127.0696,
+    desc: '대학가의 활기와 합리적인 가격대. 캐주얼한 모임에 좋아요.',
+    vibes: ['가성비', '대학가', '캐주얼'],
+    food: [
+      { name: '진주냉면 건대점', genre: '냉면', desc: '시원한 육수. 더운 날 추천.', rating: 4.3, price: '₩', tags: ['냉면','가성비'] },
+      { name: '하동관 건대', genre: '곰탕', desc: '깔끔한 한 그릇. 든든하게.', rating: 4.4, price: '₩₩', tags: ['곰탕','한식'] },
+      { name: '교토오므라이스 건대', genre: '경양식', desc: '진한 데미 소스. 캐주얼 데이트.', rating: 4.2, price: '₩', tags: ['오므라이스','데이트'] },
+      { name: '치맥하우스 본점', genre: '치킨', desc: '치킨에 생맥. 시끌벅적한 분위기 OK.', rating: 4.1, price: '₩₩', tags: ['치킨','맥주'] },
+      { name: '왕피자몰', genre: '피자', desc: '큼지막한 사이즈. 친구들과 나눠먹기.', rating: 4.2, price: '₩₩', tags: ['피자','대형'] },
+    ],
+    cafe: [
+      { name: '커피몽타주 건대', genre: '스페셜티 커피', desc: '깔끔한 드립. 작업하기 좋은 자리.', rating: 4.6, price: '₩₩', tags: ['드립','작업'] },
+      { name: '카페 오누리', genre: '스터디 카페', desc: '오래 앉기 좋음. 공부·작업 모임.', rating: 4.3, price: '₩', tags: ['스터디','오래앉기'] },
+      { name: '폴바셋 건대로데오', genre: '카페', desc: '회전 빠른 미팅용. 무난한 픽.', rating: 4.2, price: '₩₩', tags: ['미팅','넓음'] },
+      { name: '청수당 분점', genre: '한옥 카페', desc: '한옥 인테리어. 사진 찍기 좋음.', rating: 4.5, price: '₩₩', tags: ['한옥','포토'] },
+      { name: '나의 작은 책방 카페', genre: '북카페', desc: '책 보며 한 잔. 잔잔한 시간.', rating: 4.4, price: '₩', tags: ['북카페','조용함'] },
+    ]
+  },
+  {
+    name: '신촌 · 이대', lat: 37.5550, lng: 126.9368,
+    desc: '대학가의 합리적인 가격과 다양한 분식·식당. 가벼운 약속에 적합.',
+    vibes: ['가성비', '분식·다양', '캐주얼'],
+    food: [
+      { name: '신촌 황소곱창', genre: '곱창', desc: '소곱창의 정석. 회식 단골.', rating: 4.4, price: '₩₩', tags: ['곱창','회식'] },
+      { name: '독수리다방 옆 분식', genre: '분식', desc: '떡볶이와 김밥. 향수 자극.', rating: 4.3, price: '₩', tags: ['분식','가성비'] },
+      { name: '굴다리식당', genre: '한식', desc: '제육과 김치찌개. 직장인 점심.', rating: 4.4, price: '₩', tags: ['한식','점심'] },
+      { name: '신촌설농탕', genre: '설렁탕', desc: '진한 한 그릇. 해장에도.', rating: 4.5, price: '₩', tags: ['설렁탕','해장'] },
+      { name: '연세왕족발', genre: '족발', desc: '쫀득한 족발. 2차에 좋음.', rating: 4.3, price: '₩₩', tags: ['족발','술'] },
+    ],
+    cafe: [
+      { name: '미네르바 신촌', genre: '카페', desc: '오래된 노포 카페. 인생샷 포인트.', rating: 4.3, price: '₩', tags: ['노포','분위기'] },
+      { name: '카페 콤마', genre: '북카페', desc: '책과 함께. 잔잔한 시간.', rating: 4.4, price: '₩₩', tags: ['북카페','조용함'] },
+      { name: '폴바셋 신촌', genre: '카페', desc: '미팅용 자리 넉넉.', rating: 4.2, price: '₩₩', tags: ['미팅','넓음'] },
+      { name: '카페 그라플 이대', genre: '브런치 카페', desc: '리코타 팬케이크. 가벼운 디저트.', rating: 4.5, price: '₩₩', tags: ['브런치','달콤'] },
+      { name: '센드미커피', genre: '스페셜티 커피', desc: '핸드드립에 진심. 잠깐 한 잔.', rating: 4.6, price: '₩₩', tags: ['드립','로스터리'] },
+    ]
+  },
+  {
+    name: '망원동', lat: 37.5560, lng: 126.9097,
+    desc: '한적한 골목과 작은 가게들. 산책 데이트에 잘 어울려요.',
+    vibes: ['한강 가까움', '골목 산책', '작은 가게'],
+    food: [
+      { name: '망원시장 어묵', genre: '시장 분식', desc: '시장 어묵과 호떡. 산책 코스.', rating: 4.4, price: '₩', tags: ['시장','산책'] },
+      { name: '봉피양 망원', genre: '평양냉면', desc: '슴슴한 육수. 더운 날.', rating: 4.4, price: '₩₩', tags: ['냉면','어른픽'] },
+      { name: '망원동티라미수 옆 식당', genre: '브런치', desc: '햇살 좋은 자리. 데이트.', rating: 4.3, price: '₩₩', tags: ['브런치','감성'] },
+      { name: '치치 망원', genre: '비스트로', desc: '와인과 작은 접시. 분위기 깔끔.', rating: 4.5, price: '₩₩', tags: ['와인','데이트'] },
+      { name: '망원 도시락 바람', genre: '한식 도시락', desc: '한강 픽업용. 산책 점심.', rating: 4.2, price: '₩', tags: ['도시락','한강'] },
+    ],
+    cafe: [
+      { name: '아오이토리 망원', genre: '베이커리', desc: '동네 빵집의 정석. 식사빵까지.', rating: 4.7, price: '₩₩', tags: ['빵','베스트'] },
+      { name: '망원동티라미수', genre: '디저트 카페', desc: '티라미수의 시그니처. 줄 있음.', rating: 4.5, price: '₩₩', tags: ['디저트','시그니처'] },
+      { name: '카페 노티 망원', genre: '카페', desc: '햇살 좋은 자리. 책 한 권.', rating: 4.3, price: '₩', tags: ['감성','조용함'] },
+      { name: '딥블루레이크 망원', genre: '베이커리 카페', desc: '한강과 가까운 작은 가게. 산책 후.', rating: 4.4, price: '₩₩', tags: ['산책','베이커리'] },
+      { name: '망원 옥상 카페', genre: '루프탑 카페', desc: '한강 야경. 저녁 데이트.', rating: 4.5, price: '₩₩', tags: ['루프탑','야경'] },
+    ]
+  },
+  {
+    name: '신사 · 가로수길', lat: 37.5174, lng: 127.0231,
+    desc: '깔끔한 다이닝과 편집숍. 격식 있는 약속·기념일에도 잘 어울려요.',
+    vibes: ['편집숍', '브런치', '데이트'],
+    food: [
+      { name: '도산공원 옆 비스트로', genre: '비스트로', desc: '와인과 작은 접시. 깔끔한 데이트.', rating: 4.5, price: '₩₩₩', tags: ['와인','데이트'] },
+      { name: '가로수길 미진면옥', genre: '메밀국수', desc: '깔끔한 메밀과 만두. 점심 단골.', rating: 4.4, price: '₩₩', tags: ['메밀','점심'] },
+      { name: '오쇼 가로수길', genre: '일식 오마카세', desc: '셰프 코스. 기념일에.', rating: 4.6, price: '₩₩₩₩', tags: ['오마카세','기념일'] },
+      { name: '한남 다이닝 가로수', genre: '컨템퍼러리', desc: '깔끔한 코스. 손님 접대에도.', rating: 4.5, price: '₩₩₩', tags: ['컨템퍼러리','접대'] },
+      { name: '하카타분코 신사', genre: '돈가스', desc: '두툼한 등심. 점심 무난.', rating: 4.4, price: '₩₩', tags: ['돈가스','점심'] },
+    ],
+    cafe: [
+      { name: '카페 뮤제 가로수', genre: '디저트 카페', desc: '몽블랑·타르트. 디저트 미팅.', rating: 4.5, price: '₩₩', tags: ['디저트','달콤'] },
+      { name: '도산 분식 옆 카페', genre: '카페', desc: '햇살 좋은 자리. 가벼운 시간.', rating: 4.3, price: '₩₩', tags: ['감성','휴식'] },
+      { name: '카페 뉴 가로수', genre: '브런치 카페', desc: '에그베네딕트. 주말 브런치.', rating: 4.4, price: '₩₩', tags: ['브런치','주말'] },
+      { name: '커피그래피티 신사', genre: '스페셜티 커피', desc: '드립에 진심. 진지한 한 잔.', rating: 4.6, price: '₩₩', tags: ['드립','로스터리'] },
+      { name: '도산 어니언', genre: '카페 · 베이커리', desc: '판도르. 줄이 있어도 가볼 만.', rating: 4.5, price: '₩₩', tags: ['빵','시그니처'] },
+    ]
+  },
+  {
+    name: '합정 · 망원', lat: 37.5494, lng: 126.9136,
+    desc: '합정역의 접근성과 망원의 골목. 친구·연인 모두 무난.',
+    vibes: ['지하철 좋음', '한강 가까움', '캐주얼'],
+    food: [
+      { name: '합정 진주집', genre: '국수', desc: '진주식 비빔국수. 가벼운 한 끼.', rating: 4.4, price: '₩', tags: ['국수','가성비'] },
+      { name: '리치몬드 합정', genre: '베이커리 · 식사', desc: '식사빵과 디저트. 픽업.', rating: 4.4, price: '₩₩', tags: ['빵','픽업'] },
+      { name: '하동관 합정', genre: '곰탕', desc: '깔끔한 곰탕. 어른들과도.', rating: 4.5, price: '₩₩', tags: ['곰탕','한식'] },
+      { name: '교토미식 합정', genre: '일식', desc: '오므라이스와 가츠동.', rating: 4.3, price: '₩₩', tags: ['일식','점심'] },
+      { name: '합정 와인비스트로', genre: '와인 비스트로', desc: '와인 한 잔에 작은 접시. 분위기 좋음.', rating: 4.5, price: '₩₩₩', tags: ['와인','데이트'] },
+    ],
+    cafe: [
+      { name: '앤트러사이트 합정', genre: '로스터리 카페', desc: '큰 공간과 천장. 작업 좋음.', rating: 4.6, price: '₩₩', tags: ['넓음','작업'] },
+      { name: '카페 진정성 합정', genre: '밀크티', desc: '진한 밀크티 한 잔.', rating: 4.5, price: '₩₩', tags: ['밀크티','시그니처'] },
+      { name: '폴인커피 합정', genre: '스페셜티 커피', desc: '드립과 디저트. 조용한 미팅.', rating: 4.4, price: '₩₩', tags: ['드립','조용함'] },
+      { name: '한강 옆 어니언 합정', genre: '베이커리 카페', desc: '한강 산책 코스. 빵 픽업.', rating: 4.5, price: '₩₩', tags: ['빵','산책'] },
+      { name: '메쉬커피 합정', genre: '테이크아웃 카페', desc: '한 잔 들고 한강.', rating: 4.5, price: '₩', tags: ['테이크아웃','한강'] },
+    ]
+  },
+  {
+    name: '서울숲 · 뚝섬', lat: 37.5443, lng: 127.0376,
+    desc: '서울숲 산책과 카페 골목. 차분한 데이트와 모임에 좋아요.',
+    vibes: ['공원 산책', '깔끔한 동네', '데이트'],
+    food: [
+      { name: '서울숲 마더린러베이글', genre: '베이글 · 식사', desc: '두툼한 베이글. 점심 픽업.', rating: 4.5, price: '₩₩', tags: ['베이글','픽업'] },
+      { name: '뚝섬 한방삼계탕', genre: '한식', desc: '한 그릇 든든. 어른들과도.', rating: 4.4, price: '₩₩', tags: ['한식','보양'] },
+      { name: '서울숲 옆 비스트로', genre: '양식', desc: '파스타와 와인. 데이트 픽.', rating: 4.4, price: '₩₩₩', tags: ['파스타','와인'] },
+      { name: '뚝섬 만선호프', genre: '호프', desc: '치킨과 생맥. 가볍게.', rating: 4.2, price: '₩₩', tags: ['치킨','맥주'] },
+      { name: '아차산 두부집 뚝섬', genre: '한식', desc: '두부 정식. 한적한 한 끼.', rating: 4.3, price: '₩₩', tags: ['두부','한식'] },
+    ],
+    cafe: [
+      { name: '센터커피 서울숲', genre: '스페셜티 커피', desc: '서울숲 산책 코스. 깔끔한 한 잔.', rating: 4.6, price: '₩₩', tags: ['핫플','산책'] },
+      { name: '카페 어니언 뚝섬', genre: '카페 · 베이커리', desc: '판도르 픽업. 산책과 함께.', rating: 4.5, price: '₩₩', tags: ['빵','산책'] },
+      { name: '카페 마틸다', genre: '브런치 카페', desc: '햇살 좋은 자리. 잔잔한 데이트.', rating: 4.4, price: '₩₩', tags: ['브런치','감성'] },
+      { name: '대림창고 옆 카페', genre: '갤러리 카페', desc: '넓은 공간. 모임에도 좋음.', rating: 4.3, price: '₩₩', tags: ['넓음','모임'] },
+      { name: '서울숲 어반플랜트', genre: '식물 카페', desc: '식물 가득한 공간. 휴식.', rating: 4.5, price: '₩₩', tags: ['식물','휴식'] },
+    ]
+  },
+];
+
+const LOC_INDEX = [
+  { kw: ['강남','강남역','역삼','테헤란로','삼성','선릉','강남구'], lat: 37.5000, lng: 127.0364 },
+  { kw: ['서초','교대','반포','잠원','서초구','강남고속'], lat: 37.4837, lng: 127.0324 },
+  { kw: ['신사','가로수길','압구정','청담','신사동','학동'], lat: 37.5174, lng: 127.0231 },
+  { kw: ['잠실','송파','석촌','문정','가락','잠실역','롯데월드','송리단','송파구'], lat: 37.5133, lng: 127.1000 },
+  { kw: ['여의도','여의','영등포','영등포구','신길'], lat: 37.5219, lng: 126.9241 },
+  { kw: ['목동','양천','양천구','신정','오목교'], lat: 37.5266, lng: 126.8755 },
+  { kw: ['구로','신도림','구로디지털','구로구'], lat: 37.5044, lng: 126.8890 },
+  { kw: ['가산','금천','가산디지털','금천구','독산'], lat: 37.4810, lng: 126.8826 },
+  { kw: ['관악','신림','서울대','관악구','봉천'], lat: 37.4784, lng: 126.9516 },
+  { kw: ['사당','이수','동작','동작구','노량진','상도'], lat: 37.4767, lng: 126.9817 },
+  { kw: ['강동','천호','암사','명일','강동구','길동','둔촌'], lat: 37.5301, lng: 127.1238 },
+  { kw: ['홍대','홍대입구','연남','상수','합정','마포구','연남동','홍익'], lat: 37.5563, lng: 126.9220 },
+  { kw: ['마포','공덕','대흥','아현','애오개'], lat: 37.5447, lng: 126.9520 },
+  { kw: ['망원','망원동','망원시장'], lat: 37.5560, lng: 126.9097 },
+  { kw: ['이태원','한남','한남동','용산','경리단','녹사평','용산구'], lat: 37.5347, lng: 126.9947 },
+  { kw: ['신용산','용리단','삼각지'], lat: 37.5295, lng: 126.9648 },
+  { kw: ['종로','광화문','경복궁','북촌','삼청','안국','종로구','인사동','동대문'], lat: 37.5704, lng: 126.9826 },
+  { kw: ['을지로','을지','시청','중구','명동','충무로','회현'], lat: 37.5663, lng: 126.9779 },
+  { kw: ['신촌','이대','이화','연대','연세','신촌역','대현'], lat: 37.5550, lng: 126.9368 },
+  { kw: ['성수','뚝섬','서울숲','성수동','성동구','왕십리','한양대','옥수','금호'], lat: 37.5446, lng: 127.0560 },
+  { kw: ['건대','건국대','건대입구','자양','광진구','구의','어린이대공원','화양'], lat: 37.5402, lng: 127.0696 },
+  { kw: ['노원','상계','중계','하계','월계','노원구'], lat: 37.6542, lng: 127.0568 },
+  { kw: ['도봉','쌍문','창동','도봉구'], lat: 37.6688, lng: 127.0471 },
+  { kw: ['강북','수유','미아','강북구','우이'], lat: 37.6396, lng: 127.0257 },
+  { kw: ['성북','정릉','보문','성북구','동선','한성대'], lat: 37.5894, lng: 127.0167 },
+  { kw: ['은평','연신내','구파발','불광','은평구'], lat: 37.6176, lng: 126.9227 },
+  { kw: ['서대문','홍은','홍제','서대문구','독립문','경기대'], lat: 37.5791, lng: 126.9368 },
+  { kw: ['중랑','면목','상봉','중화','묵동','망우'], lat: 37.6066, lng: 127.0925 },
+  { kw: ['동대문구','회기','외대','신설동','용두','전농','청량리'], lat: 37.5894, lng: 127.0394 },
+  { kw: ['분당','판교','정자','수내','서현','야탑'], lat: 37.3826, lng: 127.1166 },
+  { kw: ['일산','대화','주엽','정발산','마두','킨텍스'], lat: 37.6760, lng: 126.7706 },
+  { kw: ['수원','광교','영통','수원역','매탄'], lat: 37.2636, lng: 127.0286 },
+  { kw: ['인천','부평','구월','송도','인천대','연수'], lat: 37.4563, lng: 126.7052 },
+];
+
+const $ = sel => document.querySelector(sel);
+const $$ = sel => [...document.querySelectorAll(sel)];
+
+/* ============ 위치/거리/중심점 ============ */
+function geocode(name) {
+  if (!name) return null;
+  const q = name.replace(/\s+/g, '').toLowerCase();
+  for (const entry of LOC_INDEX) {
+    for (const kw of entry.kw) {
+      if (q.includes(kw.toLowerCase())) {
+        return { lat: entry.lat, lng: entry.lng, matched: kw };
+      }
+    }
+  }
+  return null;
+}
+
+function distanceKm(a, b) {
+  const R = 6371;
+  const dLat = (b.lat - a.lat) * Math.PI / 180;
+  const dLng = (b.lng - a.lng) * Math.PI / 180;
+  const lat1 = a.lat * Math.PI / 180;
+  const lat2 = b.lat * Math.PI / 180;
+  const h = Math.sin(dLat/2)**2 + Math.sin(dLng/2)**2 * Math.cos(lat1) * Math.cos(lat2);
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+
+function centroidOf(points) {
+  const lat = points.reduce((s, p) => s + p.lat, 0) / points.length;
+  const lng = points.reduce((s, p) => s + p.lng, 0) / points.length;
+  return { lat, lng };
+}
+
+function personCenter(person) {
+  return centroidOf([person.homeCoords, person.workCoords]);
+}
+
+function groupCentroid(people) {
+  return centroidOf(people.map(personCenter));
+}
+
+function rankSpots(mid, max = 3) {
+  return SPOTS
+    .map(s => ({ ...s, dist: distanceKm(mid, s) }))
+    .sort((x, y) => x.dist - y.dist)
+    .slice(0, max);
+}
+
+/* ============ 룸 상태 ============ */
+/* Room: { id, n, p:[{n,h,w}] }
+   Local: 'mp_<id>' = my participant index in p */
+
+function genId() {
+  return Math.random().toString(36).slice(2, 8) + Date.now().toString(36).slice(-4);
+}
+
+function encodeRoom(room) {
+  const json = JSON.stringify(room);
+  const bytes = new TextEncoder().encode(json);
+  let binary = '';
+  bytes.forEach(b => binary += String.fromCharCode(b));
+  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function decodeRoom(encoded) {
+  try {
+    let b64 = encoded.replace(/-/g, '+').replace(/_/g, '/');
+    while (b64.length % 4) b64 += '=';
+    const binary = atob(b64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    const json = new TextDecoder().decode(bytes);
+    const parsed = JSON.parse(json);
+    if (!parsed.id || !parsed.n || !Array.isArray(parsed.p)) return null;
+    return parsed;
+  } catch (e) {
+    return null;
+  }
+}
+
+function getMyIndex(roomId) {
+  const v = localStorage.getItem('mp_' + roomId);
+  return v === null ? null : parseInt(v, 10);
+}
+
+function setMyIndex(roomId, idx) {
+  localStorage.setItem('mp_' + roomId, String(idx));
+}
+
+function clearMyIndex(roomId) {
+  localStorage.removeItem('mp_' + roomId);
+}
+
+function updateRoomHash(room) {
+  const encoded = encodeRoom(room);
+  history.replaceState(null, '', '#r=' + encoded);
+}
+
+function getRoomFromHash() {
+  const hash = location.hash.slice(1);
+  if (hash.startsWith('r=')) {
+    return decodeRoom(hash.slice(2));
+  }
+  return null;
+}
+
+/* ============ 글로벌 상태 ============ */
+const state = {
+  view: 'setup',     // 'setup' | 'solo' | 'room'
+  selectedN: 2,
+  room: null,
+  myIndex: null,
+};
+
+/* ============ Autocomplete ============ */
+function setupAutocomplete(input) {
+  const dropdown = input.parentElement.querySelector('.autocomplete');
+  if (!dropdown) return;
+
+  const allKw = LOC_INDEX.flatMap(e => e.kw);
+  const seen = new Set();
+  const opts = allKw.filter(k => {
+    if (seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
+
+  let activeIndex = -1;
+
+  function render(filter) {
+    const q = filter.replace(/\s+/g, '').toLowerCase();
+    const matches = q ? opts.filter(o => o.toLowerCase().includes(q)).slice(0, 6) : [];
+    if (!matches.length) {
+      dropdown.classList.remove('show');
+      dropdown.innerHTML = '';
+      return;
+    }
+    dropdown.innerHTML = matches.map((m, i) =>
+      `<div class="ac-item ${i === activeIndex ? 'active' : ''}" data-val="${m}">
+        <strong>${m}</strong><span>지역</span>
+      </div>`
+    ).join('');
+    dropdown.classList.add('show');
+  }
+
+  input.addEventListener('input', () => {
+    activeIndex = -1;
+    render(input.value);
+  });
+
+  input.addEventListener('focus', () => {
+    if (input.value) render(input.value);
+  });
+
+  input.addEventListener('blur', () => {
+    setTimeout(() => dropdown.classList.remove('show'), 150);
+  });
+
+  input.addEventListener('keydown', (e) => {
+    const items = [...dropdown.querySelectorAll('.ac-item')];
+    if (!items.length) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      activeIndex = (activeIndex + 1) % items.length;
+      render(input.value);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      activeIndex = (activeIndex - 1 + items.length) % items.length;
+      render(input.value);
+    } else if (e.key === 'Enter') {
+      if (activeIndex >= 0) {
+        e.preventDefault();
+        input.value = items[activeIndex].dataset.val;
+        dropdown.classList.remove('show');
+      }
+    } else if (e.key === 'Escape') {
+      dropdown.classList.remove('show');
+    }
+  });
+
+  dropdown.addEventListener('mousedown', (e) => {
+    const item = e.target.closest('.ac-item');
+    if (item) {
+      input.value = item.dataset.val;
+      dropdown.classList.remove('show');
+    }
+  });
+}
+
+/* ============ 뷰 전환 ============ */
+function showView(name) {
+  state.view = name;
+  $$('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + name));
+  $('#restartBtn').classList.toggle('show', name === 'room' || name === 'solo');
+
+  const corner = $('#cardCorner');
+  if (name === 'setup') {
+    corner.textContent = 'START';
+    corner.classList.remove('accent');
+  } else if (name === 'solo') {
+    corner.textContent = 'SOLO';
+    corner.classList.remove('accent');
+  } else {
+    corner.textContent = 'ROOM';
+    corner.classList.add('accent');
+  }
+}
+
+/* ============ 룸 렌더 ============ */
+function renderRoom() {
+  const room = state.room;
+  if (!room) return;
+
+  const added = room.p.length;
+  const max = room.n;
+  $('#roomProgress').textContent = `${added} / ${max}`;
+
+  const pill = $('#roomPill');
+  if (added >= max) {
+    pill.textContent = '모두 입력 완료';
+    pill.classList.add('complete');
+  } else {
+    pill.textContent = '진행 중';
+    pill.classList.remove('complete');
+  }
+
+  // Participants list
+  const list = $('#participantsList');
+  const items = [];
+  room.p.forEach((p, i) => {
+    const isMe = state.myIndex === i;
+    const initial = (p.n || '?').slice(0, 1);
+    items.push(`
+      <div class="participant ${isMe ? 'me' : ''}">
+        <div class="avatar" style="background: ${avatarColor(i)};">${initial}</div>
+        <div class="participant-info">
+          <div class="participant-name">
+            ${escapeHtml(p.n)}${isMe ? '<span class="me-badge">나</span>' : ''}
+          </div>
+          <div class="participant-locs">
+            🏠 ${escapeHtml(p.h)} <span class="dot">•</span> 🏢 ${escapeHtml(p.w)}
+          </div>
+        </div>
+        ${isMe ? `<button class="participant-remove" data-action="remove" title="내 정보 삭제">×</button>` : ''}
+      </div>
+    `);
+  });
+
+  for (let i = added; i < max; i++) {
+    items.push(`
+      <div class="participant pending">
+        <div class="avatar">${i + 1}</div>
+        <div class="participant-info">
+          <div class="participant-name">아직 입력 안 함</div>
+          <div class="participant-locs">${i + 1}번째 친구를 기다리는 중…</div>
+        </div>
+      </div>
+    `);
+  }
+
+  list.innerHTML = items.join('');
+
+  // Remove handler
+  list.querySelectorAll('[data-action="remove"]').forEach(btn => {
+    btn.addEventListener('click', removeMe);
+  });
+
+  // Toggle add-self vs share
+  const canAddMore = added < max;
+  const meAdded = state.myIndex !== null && state.myIndex < room.p.length;
+
+  $('#addSelfSection').style.display = (canAddMore && !meAdded) ? 'block' : 'none';
+  $('#shareSection').style.display = (added > 0) ? 'block' : 'none';
+
+  // Share link
+  $('#shareLink').value = location.href;
+
+  // Find button label
+  const btnLabel = $('#findBtnLabel');
+  if (added >= 2 && added < max) {
+    btnLabel.textContent = `지금까지 ${added}명으로 중간지점 찾기`;
+  } else if (added >= max) {
+    btnLabel.textContent = `${added}명의 중간지점 보기`;
+  } else if (added === 1) {
+    btnLabel.textContent = `최소 2명이 필요해요`;
+    $('#findGroupBtn').disabled = true;
+    return;
+  }
+  $('#findGroupBtn').disabled = false;
+}
+
+function avatarColor(i) {
+  const palette = ['#1a1a1a', '#ff6b4a', '#2987a3', '#7c5cd6', '#1f8a3d', '#d4a017'];
+  return palette[i % palette.length];
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[c]);
+}
+
+/* ============ 결과 렌더 ============ */
+function renderResults(people, spots) {
+  const results = $('#results');
+  results.classList.add('show');
+
+  $('#midName').textContent = spots[0].name;
+  $('#participantCount').textContent = people.length;
+  $('#spotCount').textContent = spots.length;
+
+  // Participants summary chips
+  $('#participantsSummary').innerHTML = people.map((p, i) => `
+    <div class="p-chip">
+      <div class="avatar" style="background: ${avatarColor(i)};">${escapeHtml((p.name || '?').slice(0,1))}</div>
+      ${escapeHtml(p.name || ('참여자' + (i+1)))}
+    </div>
+  `).join('');
+
+  // Spot tabs
+  $('#spotTabs').innerHTML = spots.map((s, i) => `
+    <button class="spot-tab ${i === 0 ? 'active' : ''}" data-idx="${i}">
+      ${s.name}
+      <span class="distance">중간점 ${s.dist.toFixed(1)}km</span>
+    </button>
+  `).join('');
+
+  // Spot contents
+  $('#spotContents').innerHTML = spots.map((s, i) => renderSpotContent(s, i === 0, people)).join('');
+
+  $$('.spot-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const idx = tab.dataset.idx;
+      $$('.spot-tab').forEach(t => t.classList.toggle('active', t.dataset.idx === idx));
+      $$('.spot-content').forEach(c => c.classList.toggle('active', c.dataset.idx === idx));
+    });
+  });
+
+  results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function renderMiniMap(people, spot) {
+  // Compute bounding box of all people + spot
+  const all = [
+    ...people.flatMap(p => [p.homeCoords, p.workCoords]),
+    { lat: spot.lat, lng: spot.lng }
+  ];
+  const minLat = Math.min(...all.map(p => p.lat));
+  const maxLat = Math.max(...all.map(p => p.lat));
+  const minLng = Math.min(...all.map(p => p.lng));
+  const maxLng = Math.max(...all.map(p => p.lng));
+  const pad = 0.01;
+  const dLat = (maxLat - minLat) + pad * 2 || 0.02;
+  const dLng = (maxLng - minLng) + pad * 2 || 0.02;
+
+  function toXY(pt) {
+    const x = ((pt.lng - minLng + pad) / dLng) * 100;
+    const y = (1 - (pt.lat - minLat + pad) / dLat) * 100;
+    return { x, y };
+  }
+
+  const spotXY = toXY({ lat: spot.lat, lng: spot.lng });
+
+  const dots = [];
+  const lines = [];
+
+  people.forEach((p, i) => {
+    const center = personCenter(p);
+    const cxy = toXY(center);
+    const color = avatarColor(i);
+    dots.push(`<div class="map-dot person" style="left:${cxy.x}%;top:${cxy.y}%;background:${color};"></div>`);
+
+    // line from person to spot
+    const dx = spotXY.x - cxy.x;
+    const dy = spotXY.y - cxy.y;
+    const len = Math.sqrt(dx*dx + dy*dy);
+    const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+    lines.push(`<div class="map-line" style="left:${cxy.x}%;top:${cxy.y}%;width:${len}%;transform:rotate(${angle}deg);"></div>`);
+  });
+
+  return `
+    <div class="mini-map">
+      ${lines.join('')}
+      <div class="map-dot spot" style="left:${spotXY.x}%;top:${spotXY.y}%;"></div>
+      ${dots.join('')}
+      <div class="map-legend">
+        <div class="map-legend-item"><div class="legend-dot" style="background:var(--cool-ink)"></div>참여자</div>
+        <div class="map-legend-item"><div class="legend-dot" style="background:var(--ink)"></div>${escapeHtml(spot.name)}</div>
+      </div>
+    </div>
+  `;
+}
+
+function renderSpotContent(spot, active, people) {
+  return `
+    <div class="spot-content ${active ? 'active' : ''}" data-idx="${SPOTS.indexOf(SPOTS.find(s => s.name === spot.name))}">
+      <div class="spot-hero">
+        <div class="spot-hero-left">
+          <h3>${spot.name}</h3>
+          <p>${spot.desc}</p>
+          <div class="spot-vibes">
+            ${spot.vibes.map(v => `<span class="vibe-tag">${v}</span>`).join('')}
+          </div>
+        </div>
+        <div class="spot-hero-right">
+          ${renderMiniMap(people, spot)}
+        </div>
+      </div>
+
+      <div class="category">
+        <div class="category-header">
+          <div class="category-title">
+            <div class="category-icon food">🍽</div>
+            <h4>맛집 BEST 5</h4>
+          </div>
+          <div class="category-count">큐레이션 5곳</div>
+        </div>
+        <div class="place-grid">
+          ${spot.food.map((p, i) => renderPlaceCard(p, i + 1)).join('')}
+        </div>
+      </div>
+
+      <div class="category">
+        <div class="category-header">
+          <div class="category-title">
+            <div class="category-icon cafe">☕</div>
+            <h4>카페 BEST 5</h4>
+          </div>
+          <div class="category-count">큐레이션 5곳</div>
+        </div>
+        <div class="place-grid">
+          ${spot.cafe.map((p, i) => renderPlaceCard(p, i + 1)).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderPlaceCard(p, rank) {
+  return `
+    <div class="place-card">
+      <div class="place-rank">NO. ${String(rank).padStart(2, '0')}</div>
+      <div class="place-body">
+        <div class="place-name">${escapeHtml(p.name)}</div>
+        <div class="place-genre">${escapeHtml(p.genre)}</div>
+        <div class="place-desc">${escapeHtml(p.desc)}</div>
+        <div class="place-tags">
+          ${p.tags.map(t => `<span class="place-tag">#${escapeHtml(t)}</span>`).join('')}
+        </div>
+        <div class="place-meta">
+          <div class="place-rating"><span class="star">★</span> ${p.rating}</div>
+          <div class="place-price">${p.price}</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ============ 액션 ============ */
+function toast(msg) {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+function selectN(n) {
+  state.selectedN = n;
+  $$('.num-btn').forEach(b => b.classList.toggle('selected', parseInt(b.dataset.n) === n));
+
+  const helper = $('#setupHelper');
+  const btn = $('#createBtn');
+  if (n === 1) {
+    helper.textContent = '혼자 가는 길의 중간지점을 찾아드려요. 집과 회사를 입력하면 바로 결과를 확인할 수 있어요.';
+    btn.querySelector('span:last-child') && (btn.firstChild.textContent = '시작하기 ');
+    btn.innerHTML = '시작하기 <span class="arrow">→</span>';
+  } else {
+    helper.textContent = `${n}명이서 만나요. 방을 만들면 친구들에게 링크를 보낼 수 있고, 각자 본인 위치를 입력하면 모두의 중간지점을 찾아드려요.`;
+    btn.innerHTML = '방 만들기 <span class="arrow">→</span>';
+  }
+}
+
+function createRoom() {
+  if (state.selectedN === 1) {
+    showView('solo');
+    return;
+  }
+  const room = {
+    id: genId(),
+    n: state.selectedN,
+    p: [],
+  };
+  state.room = room;
+  state.myIndex = null;
+  updateRoomHash(room);
+  showView('room');
+  renderRoom();
+  setTimeout(() => $('#myName')?.focus(), 200);
+}
+
+function addMe() {
+  const name = $('#myName').value.trim();
+  const home = $('#myHome').value.trim();
+  const work = $('#myWork').value.trim();
+
+  if (!name) { toast('이름을 입력해주세요'); $('#myName').focus(); return; }
+  if (!home) { toast('집 위치를 입력해주세요'); $('#myHome').focus(); return; }
+  if (!work) { toast('회사 위치를 입력해주세요'); $('#myWork').focus(); return; }
+
+  const homeC = geocode(home);
+  const workC = geocode(work);
+  if (!homeC) { toast(`"${home}" 위치를 못 찾았어요`); return; }
+  if (!workC) { toast(`"${work}" 위치를 못 찾았어요`); return; }
+
+  state.room.p.push({ n: name, h: home, w: work });
+  const myIdx = state.room.p.length - 1;
+  state.myIndex = myIdx;
+  setMyIndex(state.room.id, myIdx);
+  updateRoomHash(state.room);
+
+  // Clear inputs
+  $('#myName').value = '';
+  $('#myHome').value = '';
+  $('#myWork').value = '';
+
+  renderRoom();
+  toast(`${name}님 추가 완료!`);
+
+  // If room is full, auto-show results
+  if (state.room.p.length >= state.room.n) {
+    setTimeout(findGroup, 500);
+  }
+}
+
+function removeMe() {
+  if (state.myIndex === null) return;
+  state.room.p.splice(state.myIndex, 1);
+  clearMyIndex(state.room.id);
+  state.myIndex = null;
+  updateRoomHash(state.room);
+  renderRoom();
+  toast('내 정보를 삭제했어요');
+}
+
+function findGroup() {
+  const room = state.room;
+  if (!room || room.p.length < 2) {
+    toast('최소 2명이 입력되어야 해요');
+    return;
+  }
+  const people = room.p.map(p => ({
+    name: p.n,
+    homeCoords: geocode(p.h),
+    workCoords: geocode(p.w),
+  })).filter(p => p.homeCoords && p.workCoords);
+
+  if (people.length < 2) {
+    toast('유효한 위치가 부족해요');
+    return;
+  }
+
+  const mid = groupCentroid(people);
+  const spots = rankSpots(mid, 3);
+  renderResults(people, spots);
+}
+
+function findSolo() {
+  const home = $('#soloHome').value.trim();
+  const work = $('#soloWork').value.trim();
+  if (!home || !work) { toast('두 곳을 모두 입력해주세요'); return; }
+
+  const homeC = geocode(home);
+  const workC = geocode(work);
+  if (!homeC) { toast(`"${home}" 위치를 못 찾았어요`); return; }
+  if (!workC) { toast(`"${work}" 위치를 못 찾았어요`); return; }
+
+  const person = { name: '나', homeCoords: homeC, workCoords: workC };
+  const mid = personCenter(person);
+  const spots = rankSpots(mid, 3);
+  renderResults([person], spots);
+}
+
+function restart() {
+  $('#results').classList.remove('show');
+  location.hash = '';
+  state.room = null;
+  state.myIndex = null;
+  showView('setup');
+  // Clear all inputs
+  $$('#view-solo input, #view-room input:not([readonly])').forEach(i => i.value = '');
+}
+
+/* ============ 초기화 ============ */
+function init() {
+  // Autocompletes
+  $$('input').forEach(setupAutocomplete);
+
+  // Number picker
+  $$('.num-btn').forEach(btn => {
+    btn.addEventListener('click', () => selectN(parseInt(btn.dataset.n)));
+  });
+
+  // Buttons
+  $('#createBtn').addEventListener('click', createRoom);
+  $('#soloFind').addEventListener('click', findSolo);
+  $('#soloSwap').addEventListener('click', () => {
+    const a = $('#soloHome').value;
+    $('#soloHome').value = $('#soloWork').value;
+    $('#soloWork').value = a;
+  });
+  $('#addMeBtn').addEventListener('click', addMe);
+  $('#findGroupBtn').addEventListener('click', findGroup);
+  $('#restartBtn').addEventListener('click', restart);
+
+  // Suggestion chips (for solo)
+  $$('.suggestion-chip').forEach(c => {
+    c.addEventListener('click', () => {
+      const loc = c.dataset.loc;
+      if (!$('#soloHome').value) $('#soloHome').value = loc;
+      else if (!$('#soloWork').value) $('#soloWork').value = loc;
+      else $('#soloWork').value = loc;
+    });
+  });
+
+  // Copy share link
+  $('#copyBtn').addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText($('#shareLink').value);
+      const btn = $('#copyBtn');
+      btn.textContent = '복사됨!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = '복사';
+        btn.classList.remove('copied');
+      }, 1800);
+    } catch (e) {
+      $('#shareLink').select();
+      document.execCommand('copy');
+      toast('링크가 복사되었어요');
+    }
+  });
+
+  // Enter submit in room form
+  ['#myName', '#myHome', '#myWork'].forEach(sel => {
+    $(sel).addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !document.querySelector('.autocomplete.show')) {
+        addMe();
+      }
+    });
+  });
+
+  // Enter for solo form
+  ['#soloHome', '#soloWork'].forEach(sel => {
+    $(sel).addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !document.querySelector('.autocomplete.show')) {
+        findSolo();
+      }
+    });
+  });
+
+  // Initial state from hash
+  const room = getRoomFromHash();
+  if (room) {
+    state.room = room;
+    state.myIndex = getMyIndex(room.id);
+    showView('room');
+    renderRoom();
+  } else {
+    selectN(2);
+    showView('setup');
+  }
+
+  // Hash change (e.g., browser back/forward)
+  window.addEventListener('hashchange', () => {
+    const r = getRoomFromHash();
+    if (r) {
+      state.room = r;
+      state.myIndex = getMyIndex(r.id);
+      $('#results').classList.remove('show');
+      showView('room');
+      renderRoom();
+    }
+  });
+}
+
+init();
+</script>
+
+</body>
+</html>
